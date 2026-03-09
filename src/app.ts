@@ -119,6 +119,7 @@ export function mountApp(root: HTMLElement): () => void {
   const handleReset = () => {
     animator.reset();
     sceneContext.controls.reset();
+    sceneContext.resize();
     syncUi();
   };
 
@@ -162,3 +163,4 @@ export function mountApp(root: HTMLElement): () => void {
     root.innerHTML = '';
   };
 }
+
