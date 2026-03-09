@@ -132,10 +132,19 @@ export function mountApp(root: HTMLElement): () => void {
     syncUi();
   };
 
+  const stopSliderGesture = (event: Event) => {
+    event.stopPropagation();
+  };
+
   toggleButton.addEventListener('click', handleToggle);
   resetButton.addEventListener('click', handleReset);
   waterButton.addEventListener('click', handleWaterToggle);
   speedSlider.addEventListener('input', handleSpeedInput);
+  speedSlider.addEventListener('pointerdown', stopSliderGesture);
+  speedSlider.addEventListener('pointermove', stopSliderGesture);
+  speedSlider.addEventListener('mousedown', stopSliderGesture);
+  speedSlider.addEventListener('touchstart', stopSliderGesture, { passive: true });
+  speedSlider.addEventListener('touchmove', stopSliderGesture, { passive: true });
 
   syncUi();
 
@@ -144,6 +153,11 @@ export function mountApp(root: HTMLElement): () => void {
     resetButton.removeEventListener('click', handleReset);
     waterButton.removeEventListener('click', handleWaterToggle);
     speedSlider.removeEventListener('input', handleSpeedInput);
+    speedSlider.removeEventListener('pointerdown', stopSliderGesture);
+    speedSlider.removeEventListener('pointermove', stopSliderGesture);
+    speedSlider.removeEventListener('mousedown', stopSliderGesture);
+    speedSlider.removeEventListener('touchstart', stopSliderGesture);
+    speedSlider.removeEventListener('touchmove', stopSliderGesture);
     animator.dispose();
     root.innerHTML = '';
   };

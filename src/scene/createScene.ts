@@ -10,11 +10,18 @@ export interface SceneContext {
   dispose: () => void;
 }
 
+type CameraLayout = 'desktop' | 'mobile';
+
 export function createScene(container: HTMLElement): SceneContext {
   const scene = new THREE.Scene();
 
   const camera = new THREE.PerspectiveCamera(38, 1, 0.1, 100);
-  camera.position.set(7.2, 3.8, 8.4);
+  const desktopCameraPosition = new THREE.Vector3(7.2, 3.8, 8.4);
+  const mobileCameraPosition = new THREE.Vector3(8.25, 4.2, 9.85);
+  const cameraTarget = new THREE.Vector3(0, -0.1, 0);
+  let activeLayout: CameraLayout | null = null;
+
+  camera.position.copy(desktopCameraPosition);
 
   const renderer = new THREE.WebGLRenderer({
     antialias: true,
@@ -36,8 +43,23 @@ export function createScene(container: HTMLElement): SceneContext {
   controls.minDistance = 5;
   controls.maxDistance = 15;
   controls.maxPolarAngle = Math.PI / 2.05;
-  controls.target.set(0, -0.1, 0);
+  controls.target.copy(cameraTarget);
   controls.update();
+
+  const applyCameraLayout = (layout: CameraLayout) => {
+    if (activeLayout === layout) {
+      return;
+    }
+
+    activeLayout = layout;
+    camera.fov = layout === 'mobile' ? 42 : 38;
+    camera.position.copy(layout === 'mobile' ? mobileCameraPosition : desktopCameraPosition);
+    camera.lookAt(cameraTarget);
+    camera.updateProjectionMatrix();
+    controls.target.copy(cameraTarget);
+    controls.update();
+    controls.saveState();
+  };
 
   const hemisphereLight = new THREE.HemisphereLight(0xffffff, 0xb7c7d9, 1.4);
   scene.add(hemisphereLight);
@@ -90,6 +112,8 @@ export function createScene(container: HTMLElement): SceneContext {
   const resize = () => {
     const width = Math.max(container.clientWidth, 1);
     const height = Math.max(container.clientHeight, 1);
+
+    applyCameraLayout(width <= 720 ? 'mobile' : 'desktop');
 
     camera.aspect = width / height;
     camera.updateProjectionMatrix();

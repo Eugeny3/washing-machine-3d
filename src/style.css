@@ -184,6 +184,8 @@ input {
   backdrop-filter: blur(18px);
   display: grid;
   gap: 16px;
+  touch-action: none;
+  overscroll-behavior: contain;
 }
 
 .control-panel__header {
@@ -305,6 +307,11 @@ input[type="range"] {
   border-radius: 999px;
   background: linear-gradient(90deg, #67bbff 0%, #cfd9e3 100%);
   outline: none;
+  cursor: pointer;
+  touch-action: none;
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
 }
 
 input[type="range"]::-webkit-slider-thumb {
@@ -522,3 +529,4 @@ input[type="range"]::-moz-range-thumb {
     font-size: 12px;
   }
 }
+
