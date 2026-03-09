@@ -12,7 +12,7 @@ const APP_MARKUP = (logoUrl: string) => `
         <div class="brand-chip">
           <img class="brand-chip__logo" src="${logoUrl}" alt="Логотип Профчист" />
         </div>
-        <span class="scene-copy__eyebrow">Three.js / Vite / TypeScript</span>
+
         <h1>Фирменная 3D-сцена</h1>
         <p>
           Вращайте сцену мышкой, используйте колесо для приближения,
@@ -28,7 +28,7 @@ const APP_MARKUP = (logoUrl: string) => `
             <div class="control-panel__label">Анимация</div>
             <div class="control-panel__status" data-status>Запущена</div>
           </div>
-          <div class="control-panel__hint">Один canvas, OrbitControls и живая анимация воды.</div>
+
         </div>
 
         <div class="button-row">
@@ -163,4 +163,5 @@ export function mountApp(root: HTMLElement): () => void {
     root.innerHTML = '';
   };
 }
+
 
