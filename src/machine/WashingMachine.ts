@@ -39,7 +39,7 @@ export class WashingMachine {
     this.waterPivot.add(this.createWaterFrontBulge());
     this.drumGroup.add(this.createDrum());
 
-    this.root.traverse((child) => {
+    this.root.traverse((child: any) => {
       if (child instanceof THREE.Mesh) {
         child.castShadow = true;
         child.receiveShadow = true;
@@ -603,6 +603,7 @@ export class WashingMachine {
     this.frontWaterGeometry.computeVertexNormals();
   }
 }
+
 
 
 
